@@ -15,8 +15,12 @@ typedef struct
 
 #endif
 
-#if !defined(__BORLANDC__) && !defined(_MSC_VER )
-#define _fastcall
+#ifdef __cuda_cuda_h__
+#define	__fastcall__
+#elif !defined(__BORLANDC__) && !defined(_MSC_VER )
+#define __fastcall__
+#else
+#define __fastcall__	_fastcall
 #endif
 
 #endif

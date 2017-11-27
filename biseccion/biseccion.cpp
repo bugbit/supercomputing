@@ -5,7 +5,9 @@
 #include <malloc.h>
 #include <errno.h>
 #include <memory.h>
+#include <math.h>
 
+#include "ctypes.h"
 #include "example.h"
 
 typedef struct _STACKI
@@ -15,10 +17,7 @@ typedef struct _STACKI
 } STACKI;
 
 static STACKI *stacki_top=NULL;
-
-#include <math.h>
-#include "ctypes.h"
-#include "example.h"
+static int numsol=0;
 
 static int _fastcall stacki_push(double x,double y)
 {
@@ -60,15 +59,43 @@ static int stacki_initcex_i(double2 *i,int num)
 	return 0;
 }
 
+static void stacki_destroy()
+{
+	STACKI *s=stacki_top,*tmp;
+
+	while (s!=NULL)
+	{
+		tmp=s;
+		s=s->next;
+		free(tmp);
+	}
+}
+
 static int _fastcall biseccion(double2 *i)
 {
 	bool sol=0;
-	double l=i->x,r=i->y,s,m;
+	double l=i->x,r=i->y,s,m,l2,r2;
 
-	for(;i->x<=i->y;)
+	for(;i->x<i->y;)
 	{
 		if (csigno(l,r))
 		{
+			for(l2=l,r2=r;!igual(l2,r2);)
+			{				
+				m=(l2+r2)/2;
+				if (fxzero(m))
+					break;
+				if (csigno(l2,m))
+				{
+					r=m;
+				}
+				else if (csigno(m,r2))
+				{
+					l=m;
+				}
+			}
+			stacki_push(l,l2-TOLERANCIA1);
+			stacki_push(r2+TOLERANCIA1,r);
 		}
 		else
 		{
@@ -110,7 +137,11 @@ static int _fastcall biseccion(double2 *i)
 		}
 	}
 	if (sol)
+	{
 		printf("x=%-15lg",s);
+		if (++numsol>=F_MAXNUMSOL)
+			return 1;
+	}
 
 	return 0;
 }
@@ -129,6 +160,7 @@ int main(int argc, char * argv[])
 				break;
 			biseccion(&i);
 		}
+		stacki_destroy();
 	}
 
 	return 0;
