@@ -5,7 +5,7 @@
 #include <malloc.h>
 #include <errno.h>
 #include <memory.h>
-#include <math.h>
+#include <time.h>
 
 #include "ctypes.h"
 #include "example.h"
@@ -76,7 +76,7 @@ static int _fastcall biseccion(double2 *i)
 	bool sol=0;
 	double l=i->x,r=i->y,s,m,l2,r2;
 
-	for(;i->x<i->y;)
+	for(;l<r;)
 	{
 		if (csigno(l,r))
 		{
@@ -87,15 +87,18 @@ static int _fastcall biseccion(double2 *i)
 					break;
 				if (csigno(l2,m))
 				{
-					r=m;
+					r2=m;
 				}
 				else if (csigno(m,r2))
 				{
-					l=m;
+					l2=m;
 				}
 			}
+			s=m;
+			sol=1;
 			stacki_push(l,l2-TOLERANCIA1);
 			stacki_push(r2+TOLERANCIA1,r);
+			break;
 		}
 		else
 		{
@@ -120,19 +123,18 @@ static int _fastcall biseccion(double2 *i)
 			}
 			if (csigno(l,m))
 			{
-				stacki_push(m,r);
 				r=m;
+				stacki_push(m,r);
 			}
 			else if (csigno(m,r))
-			{				
+			{
+				l=m;				
 				stacki_push(l,m);
-				l=m;
 			}
 			else
 			{
-				stacki_push(l,m);
-				stacki_push(l,m);
-				break;
+				r=m;
+				stacki_push(m,r);
 			}
 		}
 	}
@@ -149,18 +151,28 @@ static int _fastcall biseccion(double2 *i)
 int main(int argc, char * argv[])
 {
 	double2 i;
+	time_t t1,t2;
 
-	printf("programa que calcula las soluciones de la función: " FSTR "\n");
+	printf("programa que calcula las soluciones de la funcion: " FSTR "\n");
 	
 	if (!stacki_initcex_i(fx_iterval,sizeof(fx_iterval)/sizeof(double2)))
 	{
+		time(&t1);
 		while (stacki_top!=NULL)
 		{
 			if (stacki_pop(&i))
 				break;
 			biseccion(&i);
 		}
+		time(&t2);
 		stacki_destroy();
+		if (numsol==0)
+			printf("No he encontrado ninguna solucion");
+		else if (numsol==1)
+			printf("He encontrado una solucion");
+		else
+			printf("He encontrado %d soluciones",numsol);
+		printf(" en %g segs\n",difftime(t2,t1));
 	}
 
 	return 0;
