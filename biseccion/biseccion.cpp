@@ -173,6 +173,8 @@ int main(int argc, char * argv[])
 		else
 			printf("He encontrado %d soluciones",numsol);
 		printf(" en %g segs\n",difftime(t2,t1));
+		printf("Pulse tecla para salir");
+		getchar();
 	}
 
 	return 0;

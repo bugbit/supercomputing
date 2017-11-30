@@ -26,7 +26,12 @@ __host__ __device__ double __fastcall__ fx(double x)
 
 __host__ __device__ int __fastcall__ csigno(double a,double b)
 {
-  return (fx(a)*fx(b))<=0;
+  double va=fx(a),vb=fx(b);
+
+  if ((va<0 && vb>0) && (va>0 && vb<0))
+	  return 1;
+
+  return 0;
 }
 
 __host__ __device__ int __fastcall__ igual(double n1,double n2) 
