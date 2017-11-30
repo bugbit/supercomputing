@@ -6,7 +6,7 @@
 
 #include "ctypes.h"
 
-#define TOLERANCIA1	1e-3
+#define TOLERANCIA1	1e-6
 #define TOLERANCIA2	TOLERANCIA1/10.0
 
 #define F(x) (pow(x,88)-44*pow(x,7)+22*pow(x,77)+12*pow(x,2)-1)
@@ -26,28 +26,10 @@ __host__ __device__ double __fastcall__ fx(double x)
 
 __host__ __device__ int __fastcall__ csigno(double a,double b)
 {
-  double va=fx(a),vb=fx(b);
-
-  if ((va<0 && vb>0) && (va>0 && vb<0))
+  if ((a<0 && b>0) || (a>0 && b<0))
 	  return 1;
 
   return 0;
-}
-
-__host__ __device__ int __fastcall__ igual(double n1,double n2) 
-{
-  return fabs(n1-n2)<=TOLERANCIA2;
-
-}
-
-__host__ __device__ int __fastcall__ igualz(double n)
-{
-  return igual(n,0);
-}
-
-__host__ __device__ int _fastcall fxzero(double n)
-{
-  return fx(n)==0;
 }
 
 

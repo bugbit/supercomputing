@@ -73,76 +73,47 @@ static void stacki_destroy()
 
 static int _fastcall biseccion(double2 *i)
 {
-	bool sol=0;
-	double l=i->x,r=i->y,s,m,l2,r2;
-
-	for(;l<r;)
+	double l=i->x,r=i->y,m,l2,r2,vl=fx(l),vr=fx(r),vm,vl2,vr2,m2=l,m22;
+	
+	if (csigno(vl,vr))
 	{
-		if (csigno(l,r))
+		l2=l;r2=r;vl2=vl;vr2=vr;
+		do
 		{
-			for(l2=l,r2=r;!igual(l2,r2);)
-			{				
-				m=(l2+r2)/2;
-				if (fxzero(m))
-					break;
-				if (csigno(l2,m))
-				{
-					r2=m;
-				}
-				else if (csigno(m,r2))
-				{
-					l2=m;
-				}
-			}
-			s=m;
-			sol=1;
-			stacki_push(l,l2-TOLERANCIA1);
-			stacki_push(r2+TOLERANCIA1,r);
-			break;
-		}
-		else
-		{
-			if (fxzero(l))
-			{
-				s=l;
-				sol=1;
+			m22=m2;
+			m2=r2-l2;
+			m=(l2+r2)/2;
+			vm=fx(m);
+			if (vm==0)
 				break;
-			}
-			if (fxzero(r))
+			if (csigno(vl2,vm))
 			{
-				s=r;
-				sol=1;
-				break;
-			}
-			m=(l+r)/2;
-			if (fxzero(m))
-			{
-				s=i->y;
-				sol=1;
-				break;
-			}
-			if (csigno(l,m))
-			{
-				r=m;
-				stacki_push(m,r);
-			}
-			else if (csigno(m,r))
-			{
-				l=m;				
-				stacki_push(l,m);
+				r2=m;
+				vr2=vm;
 			}
 			else
 			{
-				r=m;
-				stacki_push(m,r);
+				l2=m;
+				vl2=vm;
 			}
+		} while (m2!=m22);
+		if (vm==0 || fabs(vm)<=TOLERANCIA1)
+		{
+			printf("x=%-15lg",m);
+			if (++numsol>=F_MAXNUMSOL)
+				return 1;
 		}
+		stacki_push(l,l2);
+		stacki_push(r2,r);
 	}
-	if (sol)
+	else
 	{
-		printf("x=%-15lg",s);
-		if (++numsol>=F_MAXNUMSOL)
-			return 1;
+		m=(l+r)/2;
+		if (m-l>TOLERANCIA1)
+		{
+			stacki_push(l,m);
+			stacki_push(m,r);
+		}
 	}
 
 	return 0;
