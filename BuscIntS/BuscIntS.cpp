@@ -24,10 +24,12 @@ int BuscarIntSol(double a,double b)
 		{			
 			m=(a2+b2)/2;
 			vm=fx(m);
+			/*if (vm>-1 && vm<1)
+				break;*/
 			crece2=vm<vb2;
 			if (!csigno(va2,vm))
 			{
-				if (m-a<=TOLERANCIA1)
+				if (m-a2<=TOLERANCIA1)
 					break;
 				a2=m;
 				va2=vm;
@@ -46,13 +48,13 @@ int BuscarIntSol(double a,double b)
 				}
 			}
 			dc2=(vb2-va2)/(b2-a2);
-			if (dc/n<=dc2)
+			if (n>2 && dc/n<=dc2)
 				break;
 			dc += dc2;
 		}
 		if (a2-a>TOLERANCIA1)
 			BuscarIntSol(a,a2);
-		printf("[%lg,%lg]\t",a2,b2);
+		printf("[%lg,%lg] m: %lg va: %lg vm: %lg vb: %lg\n",a2,b2,m,va2,vm,vb2);
 		if (b-b2>TOLERANCIA1)
 			BuscarIntSol(b2,b);
 	}
@@ -60,10 +62,9 @@ int BuscarIntSol(double a,double b)
 	{
 		m=(a+b)/2;
 		if (m-a>TOLERANCIA1)
-		{
 			BuscarIntSol(a,m);
+		if (b-m>TOLERANCIA1)
 			BuscarIntSol(m,b);
-		}
 	}
 
 	return 0;
