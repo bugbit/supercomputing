@@ -7,7 +7,7 @@
 #include "ctypes.h"
 
 #define TOLERANCIA1	1e-6
-#define TOLERANCIA2	TOLERANCIA1/10.0
+#define TOLERANCIA2	1e-3
 
 #define F(x) (pow(x,88)-44*pow(x,7)+22*pow(x,77)+12*pow(x,2)-1)
 #define I { { -10,10 }}

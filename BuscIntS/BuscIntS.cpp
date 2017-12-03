@@ -8,54 +8,36 @@ int BuscarIntSol(double a,double b)
 {
 	double va=fx(a),vb=fx(b),m,vm;
 	double a2,b2,va2,vb2;
-	int crece,crece2,n;
-	double dc,dc2;
 
 	if (csigno(va,vb))
 	{
-		crece=va<vb;
-		dc=(vb-va)/(b-a);
 		a2=a;
 		b2=b;
 		va2=va;
 		vb2=vb;
-		n=1;
-		for (;b2-a2>TOLERANCIA1;n++)
+		do
 		{			
 			m=(a2+b2)/2;
 			vm=fx(m);
-			/*if (vm>-1 && vm<1)
-				break;*/
-			crece2=vm<vb2;
 			if (!csigno(va2,vm))
-			{
-				if (m-a2<=TOLERANCIA1)
+			{				
+				if (m-a2<=TOLERANCIA2)
 					break;
 				a2=m;
 				va2=vm;
 			}
 			else
 			{
-				if (crece!=crece2)
-				{
-					a2=m;
-					va2=vm;
-				}
-				else
-				{
-					b2=m;
-					vb2=vm;
-				}
+				if (b2-m<=TOLERANCIA2)
+					break;
+				b2=m;
+				vb2=vm;
 			}
-			dc2=(vb2-va2)/(b2-a2);
-			if (n>2 && dc/n<=dc2)
-				break;
-			dc += dc2;
-		}
-		if (a2-a>TOLERANCIA1)
+		} while(b2-a2>TOLERANCIA2);
+		if (a2-a>TOLERANCIA2)
 			BuscarIntSol(a,a2);
 		printf("[%lg,%lg] m: %lg va: %lg vm: %lg vb: %lg\n",a2,b2,m,va2,vm,vb2);
-		if (b-b2>TOLERANCIA1)
+		if (b-b2>TOLERANCIA2)
 			BuscarIntSol(b2,b);
 	}
 	else
@@ -76,6 +58,7 @@ int main(int argc, char * argv[])
 	double2 *i=fx_iterval;
 	int j=sizeof(fx_iterval)/sizeof(double2);
 
+	printf("-1.013776, -0.287639, 0.289762, 0.746586, 1.005253\n");
 	printf("programa que calcula los intervalos de solución de la funcion: " FSTR "\n");
 	for(;j-->0;i++)
 	{
