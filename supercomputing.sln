@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "biseccion", "biseccion\bise
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuscarIntSol", "BuscIntS\BuscIntS.vcxproj", "{A6F3A811-8C1B-49EC-8CDE-40799986C7C4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "8Queen", "8Queen\8Queen.vcxproj", "{07BE5129-1522-4DF8-83F6-E41D46DC6CF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +29,12 @@ Global
 		{A6F3A811-8C1B-49EC-8CDE-40799986C7C4}.Release|Win32.ActiveCfg = Release|Win32
 		{A6F3A811-8C1B-49EC-8CDE-40799986C7C4}.Release|Win32.Build.0 = Release|Win32
 		{A6F3A811-8C1B-49EC-8CDE-40799986C7C4}.Release|x64.ActiveCfg = Release|Win32
+		{07BE5129-1522-4DF8-83F6-E41D46DC6CF8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{07BE5129-1522-4DF8-83F6-E41D46DC6CF8}.Debug|Win32.Build.0 = Debug|Win32
+		{07BE5129-1522-4DF8-83F6-E41D46DC6CF8}.Debug|x64.ActiveCfg = Debug|Win32
+		{07BE5129-1522-4DF8-83F6-E41D46DC6CF8}.Release|Win32.ActiveCfg = Release|Win32
+		{07BE5129-1522-4DF8-83F6-E41D46DC6CF8}.Release|Win32.Build.0 = Release|Win32
+		{07BE5129-1522-4DF8-83F6-E41D46DC6CF8}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
