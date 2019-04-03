@@ -10,6 +10,10 @@
 #include "ctypes.h"
 #include "example.h"
 
+int maxthreads=1000;
+double threads[][2];
+double retthreads[][3];
+
 typedef struct _STACKI
 {
 	double2 i;
